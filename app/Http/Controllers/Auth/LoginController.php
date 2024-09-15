@@ -3,40 +3,39 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Routing\Controller as BaseController; // Correct base class
 
 class LoginController extends Controller
 {
-    // Apply middleware for guest users
-    public function __construct()
+    public function showLoginForm()
     {
-        $this->middleware('guest')->except('logout');  // This will apply guest middleware to all methods except logout
+        return view('auth.login');
     }
 
-    /**
-     * Handle post-login redirection based on user roles.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function authenticated($request, $user)
+    public function login(Request $request)
     {
-        // Check the user's role and redirect accordingly
-        switch ($user->role->id) {
-            case 1:
-                return redirect()->route('register.dashboard');
-            case 2:
-                return redirect()->route('exam_controller.dashboard');
-            case 3:
-                return redirect()->route('dept_office.dashboard');
-            case 4:
-                return redirect()->route('teacher.dashboard');
-            default:
-                return redirect()->route('student.dashboard');
+        // Validate the request
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        // Attempt login
+        if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+            // Redirect on successful login
+            return redirect()->intended('/dashboard')->with('success', 'You are logged in!');
         }
+
+        // Redirect back with errors on failure
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login')->with('success', 'Logged out successfully');
     }
 }
