@@ -112,4 +112,30 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+//guards for parents and student;
+
+'guards' => [
+    'parent' => [
+        'driver' => 'session',
+        'provider' => 'parents',
+    ],
+
+    'student' => [
+        'driver' => 'session',
+        'provider' => 'students',
+    ],
+],
+
+'providers' => [
+    'parents' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Parents::class,
+    ],
+
+    'students' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Student::class,
+    ],
+],
+
 ];

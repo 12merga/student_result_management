@@ -6,12 +6,21 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name"> full Name</label>
                 <input type="text" name="name" id="name" class="form-control" required value="{{ old('name') }}">
                 @error('name')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="name"> departement</label>
+                <input type="text" name="name" id="name" class="form-control" required value="{{ old('name') }}">
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}">
