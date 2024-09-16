@@ -7,6 +7,8 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class parentController extends Controller
 {
@@ -44,6 +46,8 @@ class parentController extends Controller
          ]);
  
          return redirect()->route('parent.login');
+         
+         return redirect()->route('parent.dashboard')->with('success', 'Parent registered successfully.');
      }
  
      // Show student registration form (for logged-in parent)

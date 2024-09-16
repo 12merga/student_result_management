@@ -9,7 +9,7 @@ class TeacherController extends Controller
 {
     public function dashboard()
     {
-        $teacher = auth()->user();
+        $teacher = auth('Teacher')->user();
         $courses = $teacher->courses; // Assuming relationship in Teacher model
 
         return view('teacher.dashboard', compact('courses'));

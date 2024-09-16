@@ -13,6 +13,10 @@ class Parents extends Authenticatable
 
     protected $fillable = ['name', 'email', 'phone', 'password'];
 
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
     // Relationship with Student
     public function students()
     {
